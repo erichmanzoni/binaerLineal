@@ -1,10 +1,14 @@
 def setup ():
-    size (800, 800)
+    size (1480, 820)
+    background (0, 0, 0)
+    x_start = 100
+    x_end = 1380
+    y_start = 600
+    y_end = 700
+    #Übermalt Zahl wieder mit weiss
+    frameRate (10)
     
 def draw ():
-    #Übermalt Zahl wieder mit weiss
-    frameRate (3)
-    background (255, 255, 255)
     
     #Beschriftung
     textSize (50)
