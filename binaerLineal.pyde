@@ -1,14 +1,14 @@
 # wiederkehrende Variablen
 displayhoehe = displayHeight
 displaybreite = displayWidth
-x_lineal_links = displaybreite - (displaybreite / 100 * 95)
-x_lineal_rechts = displaybreite - (displaybreite / 100 * 5)
+x_lineal_links = displaybreite / 100 * 10
+x_lineal_rechts = displaybreite - x_lineal_links
 delta = (x_lineal_rechts - x_lineal_links) / 256
 y_lineal_oben = displayhoehe / 100 * 70
 y_lineal_unten = displayhoehe / 100 * 85
 
 def setup ():
-    global displayhoehe, displaybreite 
+    global displayhoehe, displaybreite
     size (displaybreite, displayhoehe)
     fullScreen ()
     background (0, 0, 0)
@@ -29,7 +29,10 @@ def titel():
     textSize (displayhoehe / 100 * 12)
     fill (0, 0, 0)
     textAlign (CENTER)
-    text ("Binaerlineal: 0 bis 255", displaybreite / 2, displayhoehe / 100 * 20)
+    text ("Binaerlineal: 0 bis 256", displaybreite / 2, displayhoehe / 100 * 20)
+    strokeWeight (displayhoehe / 100 * 3)
+    stroke (0, 0, 0)
+    line (0, displayhoehe / 100 * 30, displaybreite, displayhoehe / 100 * 30)
 
 # Ausgabe der Binärzahl
 def beschriftung():
@@ -38,15 +41,14 @@ def beschriftung():
     textSize (displayhoehe / 100 * 7)
     textAlign (LEFT)
     fill (200, 55, 55)
-    text ("Binaerzahl", displaybreite / 100 * 35, displayhoehe / 100 * 40)
+    text ("Binaerzahl", displaybreite / 100 * 35, displayhoehe / 2 - displayhoehe / 100 * 3)
     
     # Binärzahlberechnung
     binary = bin((mouseX - x_lineal_links) / delta)
     fill (0, 0, 0)
     textSize (displayhoehe / 100 * 7)
-    text (mouseX, displaybreite / 2, displayhoehe / 2)
-    if mouseX in range (x_lineal_links, x_lineal_rechts + 2) and mouseY in range (y_lineal_oben, y_lineal_unten):
-        text (binary, displaybreite / 100 * 60, displayhoehe / 100 * 40)
+    if mouseX in range (x_lineal_links, x_lineal_rechts) and mouseY in range (y_lineal_oben, y_lineal_unten):
+        text (binary, displaybreite / 100 * 60, displayhoehe / 2 - displayhoehe / 100 * 3)
 
 # Smartphone-Design
 def smartphone_ansicht(): 
@@ -73,7 +75,7 @@ def overlay():
     noFill ()
     strokeWeight (displayhoehe / 100 * 4)
     stroke (255, 255, 255)
-    rect (displaybreite / 100 * 60, displayhoehe / 100 * 35, displaybreite / 100 * 4, displayhoehe / 100 * 4, 3)
+    rect (displaybreite / 100 * 60, displayhoehe / 100 * 46, displaybreite / 100 * 3.5, displayhoehe / 100 * 4, 3)
     
 # Lineal-Design  
 def lineal():
@@ -84,10 +86,10 @@ def lineal():
     noFill()
     strokeWeight (2)
     stroke (0, 0, 0)
-    rect (x_lineal_links, y_lineal_oben, x_lineal_rechts - x_lineal_links + delta, y_lineal_unten - y_lineal_oben, 5)        
+    rect (x_lineal_links, y_lineal_oben, x_lineal_rechts - x_lineal_links, y_lineal_unten - y_lineal_oben, 5)        
     
     # 1er-Striche auf dem Lineal
-    for einer in range (1, 256):
+    for einer in range (1, 257):
         x_wert = x_lineal_links + (1 * einer * delta)
         strokeWeight (1)
         line (x_wert, y_lineal_oben, x_wert, y_lineal_oben + (y_lineal_oben / 100 * 3))
@@ -110,7 +112,7 @@ def lineal():
 
     # Anzeige grüner Balken
     noStroke ()
-    if mouseX in range (x_lineal_links, x_lineal_rechts + delta) and mouseY in range (y_lineal_oben, y_lineal_unten):
+    if mouseX in range (x_lineal_links, x_lineal_rechts) and mouseY in range (y_lineal_oben, y_lineal_unten):
         fill (0, 255 - (mouseX / 10), 0)
         rect (x_lineal_links, y_lineal_oben, mouseX - x_lineal_links, displayhoehe / 100 * 3, 10)
         textSize (displayhoehe / 100 * 6)
@@ -123,7 +125,8 @@ def lineal():
     textAlign (CENTER)
     textSize (displayhoehe / 100 * 3)
     fill (0, 150, 0)
-    text ("Anzeigen der Binaerzahl => mit dem Mauszeiger im Linealbereich herumbewegen.", displaybreite / 2, displayhoehe - displayhoehe / 100 * 10)
+    text ("Anzeigen der Binaerzahl:", displaybreite / 2, displayhoehe - displayhoehe / 100 * 15)
+    text ("=> Mauszeiger auf Lineal nach links oder rechts bewegen.", displaybreite / 2, displayhoehe - displayhoehe / 100 * 10)
 
 # Funktion für das Schliessen des Fensters (da Fullscreen-Ansicht)
 def fenster_schliessen():
