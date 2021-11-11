@@ -92,6 +92,16 @@ def lineal():
         fill (200, 55, 55)
         text (zehner*10, x_wert, 680)
 
+    #Anzeige grüner Balken
+    noStroke ()
+    if mouseX in range (100, 1380):
+        fill (0, 255-(mouseX/10), 0)
+        rect (100, 550, mouseX-100, 30)
+        text ((mouseX-100)/5, mouseX + 20, 570)
+        fill (255, 0, 0)
+        rect (mouseX, 600, 5, 53)
+        
+
 def fenster_schliessen():
     if mouseX > 80 and mouseX < 120 and mouseY > 400 and mouseY < 440 and mousePressed == True:
         exit()    
