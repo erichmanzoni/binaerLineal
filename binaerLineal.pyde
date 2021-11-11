@@ -1,109 +1,132 @@
+# wiederkehrende Variablen
+displayhoehe = displayHeight
+displaybreite = displayWidth
+x_lineal_links = displaybreite - (displaybreite / 100 * 95)
+x_lineal_rechts = displaybreite - (displaybreite / 100 * 5)
+delta = (x_lineal_rechts - x_lineal_links) / 256
+y_lineal_oben = displayhoehe / 100 * 70
+y_lineal_unten = displayhoehe / 100 * 85
+
 def setup ():
-    size (1480, 820)
+    global displayhoehe, displaybreite 
+    size (displaybreite, displayhoehe)
+    fullScreen ()
     background (0, 0, 0)
-    x_start = 100
-    x_end = 1380
-    y_start = 600
-    y_end = 700
-    #Übermalt Zahl wieder mit weiss
-    frameRate (10)
+    # Übermalt Zahl wieder mit weiss
+    frameRate (100)
     
 def draw ():
     smartphone_ansicht()
     titel()
+    home_button()
     beschriftung()
     overlay()
     lineal()
     fenster_schliessen()
 
 def titel():
-    textSize (100)
-    fill(0, 0, 0)
-    textAlign(LEFT)
-    text ("Binaerlineal: 0 bis 255", 200, 150)
-
-def beschriftung():
-    global x_start
-    global x_end
-    global y_start
-    global y_end
-    x_start = 100
-    x_end = 1380
-    y_start = 600
-    y_end = 700
-                
-    #Beschriftung
-    textSize (50)
-    textAlign(LEFT)
-    fill (200, 55, 55)
-    text ("Dezimalzahl", 400, 300)
-    text ("Binaerzahl", 400, 500)
-    
-    #Binärzahl
-    binary = bin((mouseX-100)/((x_end-x_start)/256))
+    global displayhoehe, displaybreite
+    textSize (displayhoehe / 100 * 12)
     fill (0, 0, 0)
-    textSize (50)
-    if mouseX > x_start and mouseX < x_end and mouseY > y_start and mouseY < y_end:
-        text ((mouseX-100)/5, 815, 300)
-        text (binary, 750, 500)
+    textAlign (CENTER)
+    text ("Binaerlineal: 0 bis 255", displaybreite / 2, displayhoehe / 100 * 20)
 
-def smartphone_ansicht():    
-    #Smartphone
-    strokeWeight (30)
-    stroke(0, 0, 0)
-    fill(255, 255, 255)
-    rect (15, 15, 1450, 790, 70)
-    strokeWeight(40)
+# Ausgabe der Binärzahl
+def beschriftung():
+    global displayhoehe, displaybreite, x_lineal_links, x_lineal_rechts, delta, y_lineal_oben, y_lineal_unten                   
+
+    textSize (displayhoehe / 100 * 7)
+    textAlign (LEFT)
     fill (200, 55, 55)
-    rect (80, 400, 20, 20, 3)
+    text ("Binaerzahl", displaybreite / 100 * 35, displayhoehe / 100 * 40)
     
+    # Binärzahlberechnung
+    binary = bin((mouseX - x_lineal_links) / delta)
+    fill (0, 0, 0)
+    textSize (displayhoehe / 100 * 7)
+    text (mouseX, displaybreite / 2, displayhoehe / 2)
+    if mouseX in range (x_lineal_links, x_lineal_rechts + 2) and mouseY in range (y_lineal_oben, y_lineal_unten):
+        text (binary, displaybreite / 100 * 60, displayhoehe / 100 * 40)
+
+# Smartphone-Design
+def smartphone_ansicht(): 
+    global displayhoehe, displaybreite   
+    noStroke()
+    fill (255, 255, 255)
+    rect (displayhoehe / 100 * 2, displaybreite / 100, displaybreite - (displaybreite / 100 * 2), displayhoehe - (displayhoehe / 100 * 4), 70)
+
+# Homebutton (für Schliessen des Fensters --> da Fullscreen-Ansicht)    
+def home_button():
+    global displayhoehe, displaybreite
+    strokeWeight (displayhoehe / 100 * 4)
+    stroke(0, 0, 0)
+    fill (200, 55, 55)
+    rect (displaybreite / 100 * 4, displayhoehe / 2, displayhoehe / 100 * 2, displayhoehe / 100 * 2, 3)
+    strokeWeight (1)
+    textSize (displayhoehe / 100 * 2)
+    textAlign (LEFT)
+    text ("Fenster schliessen", displaybreite / 100 * 4, displayhoehe / 2 - displayhoehe / 100 * 6)
+    text ("=> Klick auf roten Homebutton", displaybreite / 100 * 4, displayhoehe / 2 - displayhoehe / 100 * 3) 
+       
+# Overlay überdeckt das "0b" bei Binärzahl
 def overlay():
-    #übermalt das 0b bei Binärzahl
     noFill ()
-    strokeWeight (50)
+    strokeWeight (displayhoehe / 100 * 4)
     stroke (255, 255, 255)
-    rect (740, 450, 50, 50, 3)
+    rect (displaybreite / 100 * 60, displayhoehe / 100 * 35, displaybreite / 100 * 4, displayhoehe / 100 * 4, 3)
     
+# Lineal-Design  
 def lineal():
-    global x_start
-    global x_end
-    x_start = 100
-    x_end = 1380
-    y_start = 600
-    y_end = 700
+    global displayhoehe, displaybreite, x_lineal_links, x_lineal_rechts, delta, y_lineal_oben, y_lineal_unten
     x_wert = 0
     
-    strokeWeight(1)
+    # Linealkontur
+    noFill()
+    strokeWeight (2)
     stroke (0, 0, 0)
-    rect (x_start, y_start, x_end-x_start, y_end-y_start, 5)        
+    rect (x_lineal_links, y_lineal_oben, x_lineal_rechts - x_lineal_links + delta, y_lineal_unten - y_lineal_oben, 5)        
+    
+    # 1er-Striche auf dem Lineal
     for einer in range (1, 256):
-        x_wert = x_start + einer * (x_end-x_start)/256
-        line(x_wert, 600, x_wert, 620)
+        x_wert = x_lineal_links + (1 * einer * delta)
+        strokeWeight (1)
+        line (x_wert, y_lineal_oben, x_wert, y_lineal_oben + (y_lineal_oben / 100 * 3))
+    
+    # 5er-Striche auf dem Lineal
     for fuenfer in range (1, 52):
-        x_wert = x_start + 5 * fuenfer * (x_end-x_start)/256
-        strokeWeight(3)
-        line(x_wert, 601, x_wert, 630)    
+        x_wert = x_lineal_links + ( 5 * fuenfer * delta)
+        strokeWeight (3)
+        line (x_wert, y_lineal_oben + 1, x_wert, y_lineal_oben + (y_lineal_oben / 100 * 6))    
+    
+    # 10er-Striche auf dem Lineal
     for zehner in range (1, 26):
-        x_wert = x_start + 10 * zehner * (x_end-x_start)/256
-        strokeWeight(5)
-        line(x_wert, 602, x_wert, 650)
-        textSize(15)
-        textAlign(CENTER)
+        x_wert = x_lineal_links + (10 * zehner * delta)
+        strokeWeight (5)
+        line (x_wert, y_lineal_oben + 2, x_wert, y_lineal_oben + (y_lineal_oben / 100 * 12))
+        textSize (displayhoehe / 100 * 2)
+        textAlign (CENTER)
         fill (200, 55, 55)
-        text (zehner*10, x_wert, 680)
+        text (zehner * 10, x_wert, y_lineal_oben + (y_lineal_oben / 100 * 20))
 
-    #Anzeige grüner Balken
+    # Anzeige grüner Balken
     noStroke ()
-    if mouseX in range (100, 1380):
-        fill (0, 255-(mouseX/10), 0)
-        rect (100, 550, mouseX-100, 30)
-        text ((mouseX-100)/5, mouseX + 20, 570)
-        fill (255, 0, 0)
-        rect (mouseX, 600, 5, 53)
+    if mouseX in range (x_lineal_links, x_lineal_rechts + delta) and mouseY in range (y_lineal_oben, y_lineal_unten):
+        fill (0, 255 - (mouseX / 10), 0)
+        rect (x_lineal_links, y_lineal_oben, mouseX - x_lineal_links, displayhoehe / 100 * 3, 10)
+        textSize (displayhoehe / 100 * 6)
+        text ((mouseX - x_lineal_links) / delta, mouseX, y_lineal_oben - y_lineal_oben / 100 * 2)
+        stroke (255, 0, 0)
+        strokeWeight (5)
+        line (mouseX, y_lineal_oben + 2, mouseX, y_lineal_oben + y_lineal_oben / 100 * 12)
         
+    # Info-Text unter Lineal
+    textAlign (CENTER)
+    textSize (displayhoehe / 100 * 3)
+    fill (0, 150, 0)
+    text ("Anzeigen der Binaerzahl => mit dem Mauszeiger im Linealbereich herumbewegen.", displaybreite / 2, displayhoehe - displayhoehe / 100 * 10)
 
+# Funktion für das Schliessen des Fensters (da Fullscreen-Ansicht)
 def fenster_schliessen():
-    if mouseX > 80 and mouseX < 120 and mouseY > 400 and mouseY < 440 and mousePressed == True:
-        exit()    
-    
-    
+    global displayhoehe, displaybreite
+    if mouseX in range (displaybreite * 4 / 100, displaybreite * 4 / 100 + displayhoehe / 100 * 2) and mouseY in range (displayhoehe / 2, displayhoehe / 2 + displayhoehe / 100 * 2) and mousePressed == True:
+        exit ()    
