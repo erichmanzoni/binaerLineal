@@ -7,6 +7,9 @@ x_lineal_rechts = displaybreite - x_lineal_links
 delta = (x_lineal_rechts - x_lineal_links) / 256
 y_lineal_oben = displayhoehe / 100 * 70
 y_lineal_unten = displayhoehe / 100 * 85
+x_marker_a = 0
+x_marker_s = 0
+x_marker_d = 0
 
 def setup ():
     global displayhoehe, displaybreite
@@ -21,36 +24,46 @@ def draw ():
     titel()
     home_button()
     lineal_buttons()
+    displayzaehler_reset()
     beschriftung()
-    overlay()
+    infotext_marker()
+    infotext_lineal()
     lineal()
+    marker()
     fenster_schliessen()
 
 def titel():
     global displayhoehe, displaybreite
-    textSize (displayhoehe / 100 * 20)
+    textSize (displayhoehe / 100 * 12)
     fill (0, 0, 0)
     textAlign (CENTER)
-    text ("Binaerlineal", displaybreite / 2, displayhoehe / 100 * 24)
+    text ("Binaerlineal", displaybreite / 2, displayhoehe / 100 * 15)
     strokeWeight (displayhoehe / 100 * 3)
     stroke (0, 0, 0)
-    line (0, displayhoehe / 100 * 30, displaybreite, displayhoehe / 100 * 30)
+    line (0, displayhoehe / 100 * 20, displaybreite, displayhoehe / 100 * 20)
 
 # Ausgabe der Binärzahl
 def beschriftung():
-    global displayzaehler, displayhoehe, displaybreite, x_lineal_links, x_lineal_rechts, delta, y_lineal_oben, y_lineal_unten                   
-
-    textSize (displayhoehe / 100 * 7)
+    global x_marker_a, x_marker_s, x_marker_d, displayzaehler, displayhoehe, displaybreite, x_lineal_links, x_lineal_rechts, delta, y_lineal_oben, y_lineal_unten                   
+    # Beschriftungen
     textAlign (LEFT)
+    textSize (displayhoehe / 100 * 7)
     fill (200, 55, 55)
-    text ("Binaerzahl", displaybreite / 100 * 35, displayhoehe / 2 - displayhoehe / 100 * 3)
+    text ("Live-Binaerzahl", displaybreite / 100 * 15, displayhoehe / 100 * 35)
+    textSize (displayhoehe / 100 * 4)
+    fill (20, 120, 120)  
+    text ("Markierung 'A':", displaybreite / 100 * 22, displayhoehe / 100 * 45)
+    fill (220, 100, 10)
+    text ("Markierung 'S':", displaybreite / 100 * 22, displayhoehe / 100 * 50)
+    fill (200, 50, 200)
+    text ("Markierung 'D':", displaybreite / 100 * 22, displayhoehe / 100 * 55)
     
-    # Binärzahlberechnung
-    binary = bin(((mouseX - x_lineal_links) / delta) + displayzaehler * 250)
+    # Binärzahlberechnung und Ausgabe (.replace entfernt das "0b" bei der Binärzahl)
+    binary = bin(((mouseX - x_lineal_links) / delta) + displayzaehler * 250).replace("0b", "")
     fill (0, 0, 0)
     textSize (displayhoehe / 100 * 7)
     if mouseX in range (x_lineal_links, x_lineal_rechts) and mouseY in range (y_lineal_oben, y_lineal_unten):
-        text (binary, displaybreite / 100 * 60, displayhoehe / 2 - displayhoehe / 100 * 3)
+        text (binary, displaybreite / 100 * 50, displayhoehe / 100 * 35)
 
 # Smartphone-Design
 def smartphone_ansicht(): 
@@ -69,19 +82,99 @@ def home_button():
     strokeWeight (1)
     textSize (displayhoehe / 100 * 2)
     textAlign (LEFT)
-    text ("Fenster schliessen", displaybreite / 100 * 4, displayhoehe / 2 - displayhoehe / 100 * 6)
-    text ("=> Klick auf roten Homebutton", displaybreite / 100 * 4, displayhoehe / 2 - displayhoehe / 100 * 3)
+    text ("Fenster schliessen:", displaybreite / 100 * 4, displayhoehe / 2 - displayhoehe / 100 * 6)
+    text ("=> Klick auf roten Button", displaybreite / 100 * 4, displayhoehe / 2 - displayhoehe / 100 * 3)
 
 # Veränderung von Displayzähler und somit der Linealskala
 def mouseClicked():
     global displayzaehler
+    frameRate(1)
     if mouseButton == LEFT:
         displayzaehler = displayzaehler + 1
     if mouseButton == RIGHT:
         displayzaehler = displayzaehler - 1
     return displayzaehler
 
-# Buttons (+ und -)
+# Displayzähler zurücksetzen auf 0
+def displayzaehler_reset():
+    global displayzaehler
+    if keyPressed == True:
+        if key == "q":
+            displayzaehler = 0
+    return displayzaehler
+
+# Info-Text neben "Markierungsanzeige"
+def infotext_marker():
+    textAlign (LEFT)
+    textSize (displayhoehe / 100 * 2)
+    fill (0, 150, 0)
+    text ("Markierungen setzen (wenn Maus auf Lineal):", displaybreite / 100 * 75, displayhoehe / 100 * 45)
+    text ("=> Druecken der Tasten 'A', 'S' und 'D'", displaybreite / 100 * 75, displayhoehe / 100 * 50)
+    text ("=> Loeschen der Markierungen mit Taste 'F'", displaybreite / 100 * 75, displayhoehe / 100 * 55)
+
+# Info-Text unter Lineal
+def infotext_lineal():
+    textAlign (CENTER)
+    textSize (displayhoehe / 100 * 2)
+    fill (0, 150, 0)
+    text ("Anzeigen der Live-Binaerzahl: Mauszeiger auf Lineal nach links oder rechts bewegen.", displaybreite / 2, displayhoehe - displayhoehe / 100 * 18)
+    text ("Linealskala anpassen: Maustaste links => + 250 ; Maustaste rechts => - 250", displaybreite / 2, displayhoehe - displayhoehe / 100 * 12)
+    text ("Automatisches Skala-Scrolling: Klick und Maus nicht bewegen!! bei - => 250/sek ; bei + => 2500/sek", displaybreite / 2, displayhoehe - displayhoehe / 100 * 9)
+    text ("Reset der Linealskala mit der Taste 'Q' !!", displaybreite / 2, displayhoehe - displayhoehe / 100 * 6)
+
+# X-Wert von Marker (letzter Wert) festlegen, wenn Taste "a", "s" oder "d" gedrückt wird, Zurücksetzen der Marker bei Taste "f"
+def marker():
+    global x_marker_a, x_marker_s, x_marker_d, displayhoehe, displaybreite
+    if mouseX in range (x_lineal_links, x_lineal_rechts) and mouseY in range (y_lineal_oben, y_lineal_unten):
+        if keyPressed == True:
+            if key == "a":
+                x_marker_a = mouseX
+        if keyPressed == True:
+            if key == "s":
+                x_marker_s = mouseX
+        if keyPressed == True:
+            if key == "d":
+                x_marker_d = mouseX
+        # bestehende Markierungen löschen
+        if keyPressed == True:
+            if key == "f":
+                x_marker_a = 0
+                x_marker_s = 0
+                x_marker_d = 0
+    return x_marker_a, x_marker_s, x_marker_d
+
+# Marker zeichnen und beschriften, wenn Taste "a", "s" oder "d" losgelassen wird + Binärzahl berechnen und notieren
+def keyReleased():
+    global x_marker_a, x_marker_s, x_marker_d, y_lineal_oben, displaybreite, delta, x_lineal_links, displayzaehler
+    textAlign (LEFT)
+    strokeWeight (5)
+    textSize (displayhoehe / 100 * 4)
+    if x_marker_a > 0: 
+        stroke (20, 120, 120)
+        fill (20, 120, 120)
+        line (x_marker_a, y_lineal_oben, x_marker_a, y_lineal_oben - displayhoehe / 100 * 10)
+        triangle (x_marker_a, y_lineal_oben - displayhoehe / 100 * 10, x_marker_a, y_lineal_oben - displayhoehe / 100 * 6, x_marker_a + displaybreite / 100 * 2, y_lineal_oben - displayhoehe / 100 * 8)
+        binary = bin(((x_marker_a - x_lineal_links) / delta) + displayzaehler * 250).replace("0b", "")
+        text (binary, displaybreite / 100 * 40, displayhoehe / 100 * 45)
+        text (((x_marker_a - x_lineal_links) / delta) + displayzaehler * 250, x_marker_a + displaybreite / 100 * 3, y_lineal_oben - displayhoehe / 100 * 7)
+    if x_marker_s > 0:
+        stroke (220, 100, 0)
+        fill (220, 100, 0)
+        line (x_marker_s, y_lineal_oben, x_marker_s, y_lineal_oben - displayhoehe / 100 * 10)
+        triangle (x_marker_s, y_lineal_oben - displayhoehe / 100 * 10, x_marker_s, y_lineal_oben - displayhoehe / 100 * 6, x_marker_s + displaybreite / 100 * 2, y_lineal_oben - displayhoehe / 100 * 8)
+        binary = bin(((x_marker_s - x_lineal_links) / delta) + displayzaehler * 250).replace("0b", "")
+        text (binary, displaybreite / 100 * 40, displayhoehe / 100 * 50)
+        text (((x_marker_s - x_lineal_links) / delta) + displayzaehler * 250, x_marker_s + displaybreite / 100 * 3, y_lineal_oben - displayhoehe / 100 * 7)
+    if x_marker_d > 0:
+        stroke (200, 50, 200)
+        fill (200, 50, 200)
+        line (x_marker_d, y_lineal_oben, x_marker_d, y_lineal_oben - displayhoehe / 100 * 10)
+        triangle (x_marker_d, y_lineal_oben - displayhoehe / 100 * 10, x_marker_d, y_lineal_oben - displayhoehe / 100 * 6, x_marker_d + displaybreite / 100 * 2, y_lineal_oben - displayhoehe / 100 * 8)
+        binary = bin(((x_marker_d - x_lineal_links) / delta) + displayzaehler * 250).replace("0b", "")
+        text (binary, displaybreite / 100 * 40, displayhoehe / 100 * 55)
+        text (((x_marker_d - x_lineal_links) / delta) + displayzaehler * 250, x_marker_d + displaybreite / 100 * 3, y_lineal_oben - displayhoehe / 100 * 7)
+
+# Buttons (+ und - für schnelles / langsames Verändern der Skala)
 def lineal_buttons():
     global displayzaehler, displayhoehe, displaybreite, x_lineal_links, x_lineal_rechts, delta, y_lineal_oben, y_lineal_unten
     stroke (0, 50, 200)
@@ -99,17 +192,17 @@ def lineal_buttons():
     line (x_lineal_rechts - displayhoehe / 100 * 8, y_lineal_unten + displayhoehe / 100 * 10, x_lineal_rechts - displayhoehe / 100 * 2, y_lineal_unten + displayhoehe / 100 * 10)
     line (x_lineal_rechts - displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 7, x_lineal_rechts - displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 13)
     noStroke ()
-
-# Overlay überdeckt das "0b" bei Binärzahl
-def overlay():
-    noFill ()
-    strokeWeight (displayhoehe / 100 * 4)
-    stroke (255, 255, 255)
-    rect (displaybreite / 100 * 60, displayhoehe / 100 * 46, displaybreite / 100 * 3.5, displayhoehe / 100 * 4, 3)
+    if mouseX in range (x_lineal_links, x_lineal_links + displayhoehe / 100 * 10) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10):
+        delay(1000)
+        mouseClicked()
+    elif mouseX in range (x_lineal_rechts - displayhoehe / 100 * 10, x_lineal_rechts) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10):
+        delay(100)
+        mouseClicked()
     
-# Lineal-Design  
+# Lineal-Design und Marker zeichnen bei Lineal 
 def lineal():
     global displayzaehler, displayhoehe, displaybreite, x_lineal_links, x_lineal_rechts, delta, y_lineal_oben, y_lineal_unten
+    frameRate(100)
     x_wert = 0
     
     # Linealkontur
@@ -150,14 +243,9 @@ def lineal():
         stroke (255, 0, 0)
         strokeWeight (5)
         line (mouseX, y_lineal_oben + 2, mouseX, y_lineal_oben + y_lineal_oben / 100 * 12)
-        
-    # Info-Text unter Lineal
-    textAlign (CENTER)
-    textSize (displayhoehe / 100 * 3)
-    fill (0, 150, 0)
-    text ("Anzeigen der Binaerzahl:", displaybreite / 2, displayhoehe - displayhoehe / 100 * 18)
-    text ("=> Mauszeiger auf Lineal nach links oder rechts bewegen.", displaybreite / 2, displayhoehe - displayhoehe / 100 * 13)
-    text ("=> Maustaste links: + 250 / Maustaste rechts: - 250", displaybreite / 2, displayhoehe - displayhoehe / 100 * 8)
+
+    # Marker zeichnen und beschriften
+    keyReleased()
 
 # Funktion für das Schliessen des Fensters (da Fullscreen-Ansicht)
 def fenster_schliessen():
