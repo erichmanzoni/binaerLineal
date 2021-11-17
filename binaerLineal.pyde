@@ -91,9 +91,9 @@ def mouseClicked():
     global displayzaehler
     frameRate(1)
     if mouseButton == LEFT:
-        displayzaehler = displayzaehler + 1
-    if mouseButton == RIGHT:
         displayzaehler = displayzaehler - 1
+    if mouseButton == RIGHT:
+        displayzaehler = displayzaehler + 1
     return displayzaehler
 
 # Displayzähler zurücksetzen auf 0
@@ -129,7 +129,7 @@ def infotext_lineal():
     textSize (displayhoehe / 100 * 2)
     fill (0, 150, 0)
     text ("Anzeigen der Live-Binaerzahl: Mauszeiger auf Lineal nach links oder rechts bewegen.", displaybreite / 2, displayhoehe - displayhoehe / 100 * 18)
-    text ("Linealskala anpassen: Maustaste links => + 250 ; Maustaste rechts => - 250", displaybreite / 2, displayhoehe - displayhoehe / 100 * 12)
+    text ("Linealskala anpassen: Maustaste links => - 250 ; Maustaste rechts => + 250", displaybreite / 2, displayhoehe - displayhoehe / 100 * 12)
     text ("Automatisches Skala-Scrolling: Klick und Maus nicht bewegen!! bei - => 250/sek ; bei + => 2500/sek", displaybreite / 2, displayhoehe - displayhoehe / 100 * 9)
     text ("Reset der Linealskala mit der Taste 'Q' !!", displaybreite / 2, displayhoehe - displayhoehe / 100 * 6)
 
@@ -198,16 +198,18 @@ def lineal_buttons():
     line (x_lineal_rechts - displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 7, x_lineal_rechts - displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 13)
     noStroke ()
     if mouseX in range (x_lineal_links, x_lineal_links + displayhoehe / 100 * 10) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10):
+        cursor (HAND)
         delay(1000)
         mouseClicked()
-    elif mouseX in range (x_lineal_rechts - displayhoehe / 100 * 10, x_lineal_rechts) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10):
+    if mouseX in range (x_lineal_rechts - displayhoehe / 100 * 10, x_lineal_rechts) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10):
+        cursor (HAND)
         delay(100)
         mouseClicked()
     
 # Lineal-Design und Marker zeichnen bei Lineal 
 def lineal():
     global displayzaehler, displayhoehe, displaybreite, x_lineal_links, x_lineal_rechts, delta, y_lineal_oben, y_lineal_unten
-    frameRate(100)
+    frameRate (100)
     x_wert = 0
     
     # Linealkontur
@@ -255,5 +257,11 @@ def lineal():
 # Funktion für das Schliessen des Fensters (da Fullscreen-Ansicht)
 def fenster_schliessen():
     global displayhoehe, displaybreite
-    if mouseX in range (displaybreite * 4 / 100, displaybreite * 4 / 100 + displayhoehe / 100 * 2) and mouseY in range (displayhoehe / 2, displayhoehe / 2 + displayhoehe / 100 * 2) and mousePressed == True:
-        exit ()
+    if mouseX in range (displaybreite * 4 / 100, displaybreite * 4 / 100 + displayhoehe / 100 * 2) and mouseY in range (displayhoehe / 2, displayhoehe / 2 + displayhoehe / 100 * 2):
+        cursor (HAND)
+        if mousePressed == True:
+            cursor (WAIT)
+            delay(1000)
+            exit ()
+    if mouseX not in range (displaybreite * 4 / 100, displaybreite * 4 / 100 + displayhoehe / 100 * 2) or mouseY not in range (displayhoehe / 2, displayhoehe / 2 + displayhoehe / 100 * 2):
+        cursor (ARROW)
