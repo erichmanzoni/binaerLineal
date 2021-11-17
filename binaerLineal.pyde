@@ -25,6 +25,7 @@ def draw ():
     home_button()
     lineal_buttons()
     displayzaehler_reset()
+    markierungen_reset()
     beschriftung()
     infotext_marker()
     infotext_lineal()
@@ -103,6 +104,16 @@ def displayzaehler_reset():
             displayzaehler = 0
     return displayzaehler
 
+# bestehende Markierungen löschen
+def markierungen_reset():
+    global x_marker_a, x_marker_s, x_marker_d
+    if keyPressed == True:
+        if key == "f":
+            x_marker_a = 0
+            x_marker_s = 0
+            x_marker_d = 0
+    return x_marker_a, x_marker_s, x_marker_d
+
 # Info-Text neben "Markierungsanzeige"
 def infotext_marker():
     textAlign (LEFT)
@@ -135,12 +146,6 @@ def marker():
         if keyPressed == True:
             if key == "d":
                 x_marker_d = mouseX
-        # bestehende Markierungen löschen
-        if keyPressed == True:
-            if key == "f":
-                x_marker_a = 0
-                x_marker_s = 0
-                x_marker_d = 0
     return x_marker_a, x_marker_s, x_marker_d
 
 # Marker zeichnen und beschriften, wenn Taste "a", "s" oder "d" losgelassen wird + Binärzahl berechnen und notieren
