@@ -10,6 +10,7 @@ y_lineal_unten = displayhoehe / 100 * 85
 x_marker_a = 0
 x_marker_s = 0
 x_marker_d = 0
+run = 0
 
 def setup ():
     global displayhoehe, displaybreite
@@ -20,18 +21,53 @@ def setup ():
     frameRate (100)
     
 def draw ():
-    smartphone_ansicht()
-    titel()
-    home_button()
-    lineal_buttons()
-    displayzaehler_reset()
-    markierungen_reset()
-    beschriftung()
-    infotext_marker()
-    infotext_lineal()
-    lineal()
-    marker()
-    fenster_schliessen()
+    global run
+    intro()
+    if run == 1:
+        smartphone_ansicht()
+        titel()
+        info_button()
+        home_button()
+        lineal_buttons()
+        displayzaehler_reset()
+        markierungen_reset()
+        beschriftung()
+        infotext_marker()
+        infotext_lineal()
+        lineal()
+        marker()
+        fenster_schliessen()
+
+def intro():
+    global run, displayhoehe, displaybreite
+    fill (100, 100, 100)
+    textAlign (CENTER)
+    textSize (displayhoehe / 100 * 20)
+    text ("Live-Binaerlineal", displaybreite / 2, displayhoehe / 4)
+    textSize (displayhoehe / 100 * 4)
+    fill (255, 255, 255)
+    text ("=> Mauszeiger auf Lineal nach links oder rechts bewegen.", displaybreite / 2, displayhoehe / 3)
+    textSize (displayhoehe / 100 * 6)
+    fill (0, 255 , 100)
+    text ("Taste 'R' => Live-Binaerlineal wird gestartet", displaybreite / 2, displayhoehe / 3 * 2)
+    fill (255, 0 , 0)
+    text ("Taste 'Esc' => Programm wird beendet", displaybreite / 2, displayhoehe / 4 * 3)
+    if keyPressed == True:
+        delay (1)
+        if key == "r":
+            run = 1
+    return run
+
+def info_button():
+    global displayhoehe, displaybreite
+    strokeWeight (5)
+    stroke (140, 140, 140)
+    fill (140, 140, 140)
+    rect (displaybreite / 100 * 85, displayhoehe / 100 * 6, displaybreite / 100 * 10 , displayhoehe / 100 * 10, 10)
+    textAlign (CENTER)
+    fill (0, 0, 0)
+    textSize (displayhoehe / 100 * 6)
+    text ("Infos", displaybreite / 100 * 90, displayhoehe / 100 * 13)
 
 def titel():
     global displayhoehe, displaybreite
@@ -80,16 +116,16 @@ def home_button():
     stroke(0, 0, 0)
     fill (200, 55, 55)
     rect (displaybreite / 100 * 4, displayhoehe / 2, displayhoehe / 100 * 2, displayhoehe / 100 * 2, 3)
-    strokeWeight (1)
-    textSize (displayhoehe / 100 * 2)
-    textAlign (LEFT)
-    text ("Fenster schliessen:", displaybreite / 100 * 4, displayhoehe / 2 - displayhoehe / 100 * 6)
-    text ("=> Klick auf roten Button", displaybreite / 100 * 4, displayhoehe / 2 - displayhoehe / 100 * 3)
+    if mouseX in range (displaybreite * 4 / 100, displaybreite * 4 / 100 + displayhoehe / 100 * 2) and mouseY in range (displayhoehe / 2, displayhoehe / 2 + displayhoehe / 100 * 2):
+        strokeWeight (1)
+        textSize (displayhoehe / 100 * 2)
+        textAlign (LEFT)
+        text ("Fenster schliessen:", displaybreite / 100 * 4, displayhoehe / 2 - displayhoehe / 100 * 6)
+        text ("=> Klick auf roten Button", displaybreite / 100 * 4, displayhoehe / 2 - displayhoehe / 100 * 3)
 
 # Veränderung von Displayzähler und somit der Linealskala
 def mouseClicked():
     global displayzaehler
-    frameRate(1)
     if mouseButton == LEFT:
         displayzaehler = displayzaehler - 1
     if mouseButton == RIGHT:
@@ -116,22 +152,33 @@ def markierungen_reset():
 
 # Info-Text neben "Markierungsanzeige"
 def infotext_marker():
-    textAlign (LEFT)
-    textSize (displayhoehe / 100 * 2)
-    fill (0, 150, 0)
-    text ("Markierungen setzen (wenn Maus auf Lineal):", displaybreite / 100 * 75, displayhoehe / 100 * 45)
-    text ("=> Druecken der Tasten 'A', 'S' und 'D'", displaybreite / 100 * 75, displayhoehe / 100 * 50)
-    text ("=> Loeschen der Markierungen mit Taste 'F'", displaybreite / 100 * 75, displayhoehe / 100 * 55)
+    if mouseX in range (displaybreite / 100 * 85, displaybreite / 100 * 95) and mouseY in range (displayhoehe / 100 * 6, displayhoehe / 100 * 16):
+        textAlign (LEFT)
+        fill (0, 150, 0)
+        textSize (displayhoehe / 100 * 4)
+        text ("Markierungen setzen", displaybreite / 100 * 75, displayhoehe / 100 * 35)
+        text ("Markierungen loeschen", displaybreite / 100 * 75, displayhoehe / 100 * 55)
+        textSize (displayhoehe / 100 * 3)
+        text ("=> Tasten 'A', 'S' und 'D'", displaybreite / 100 * 75, displayhoehe / 100 * 43)
+        text ("=> Taste 'F'", displaybreite / 100 * 75, displayhoehe / 100 * 60)
+        textSize (displayhoehe / 100 * 2)
+        text ("(wenn Maus im Linealbereich)", displaybreite / 100 * 75, displayhoehe / 100 * 38)
 
 # Info-Text unter Lineal
 def infotext_lineal():
     textAlign (CENTER)
-    textSize (displayhoehe / 100 * 2)
+    textSize (displayhoehe / 100 * 3)
     fill (0, 150, 0)
-    text ("Anzeigen der Live-Binaerzahl: Mauszeiger auf Lineal nach links oder rechts bewegen.", displaybreite / 2, displayhoehe - displayhoehe / 100 * 18)
-    text ("Linealskala anpassen: Maustaste links => - 250 ; Maustaste rechts => + 250", displaybreite / 2, displayhoehe - displayhoehe / 100 * 12)
-    text ("Automatisches Skala-Scrolling: Klick und Maus nicht bewegen!! bei - => 250/sek ; bei + => 2500/sek", displaybreite / 2, displayhoehe - displayhoehe / 100 * 9)
-    text ("Reset der Linealskala mit der Taste 'Q' !!", displaybreite / 2, displayhoehe - displayhoehe / 100 * 6)
+    if mouseX in range (displaybreite / 100 * 85, displaybreite / 100 * 95) and mouseY in range (displayhoehe / 100 * 6, displayhoehe / 100 * 16):
+        text ("Skala anpassen: Maustaste links => - 250 ; Maustaste rechts => + 250", displaybreite / 2, displayhoehe - displayhoehe / 100 * 15)
+        text ("Reset der Skala mit der Taste 'Q' !!", displaybreite / 2, displayhoehe - displayhoehe / 100 * 10)
+    if mouseX in range (x_lineal_links - 10, x_lineal_links + displayhoehe / 100 * 10 + 10) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5 - 10, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10 + 10):
+        text ("Automatisches Skala-Scrolling: Klick und Maus nicht bewegen!!", displaybreite / 2, displayhoehe - displayhoehe / 100 * 15)
+        text ("=>  -/+ 250 pro Sekunde", displaybreite / 2, displayhoehe - displayhoehe / 100 * 10)
+    if mouseX in range (x_lineal_rechts - displayhoehe / 100 * 10 - 10, x_lineal_rechts + 10) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5 - 10, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10 + 10):
+        text ("Automatisches Skala-Scrolling: Klick und Maus nicht bewegen!!", displaybreite / 2, displayhoehe - displayhoehe / 100 * 15)
+        text ("=>  -/+ 2500 pro Sekunde", displaybreite / 2, displayhoehe - displayhoehe / 100 * 10)
+    
 
 # X-Wert von Marker (letzter Wert) festlegen, wenn Taste "a", "s" oder "d" gedrückt wird, Zurücksetzen der Marker bei Taste "f"
 def marker():
@@ -182,28 +229,26 @@ def keyReleased():
 # Buttons (+ und - für schnelles / langsames Verändern der Skala)
 def lineal_buttons():
     global displayzaehler, displayhoehe, displaybreite, x_lineal_links, x_lineal_rechts, delta, y_lineal_oben, y_lineal_unten
+    strokeWeight (10)
     stroke (0, 50, 200)
     fill (0, 50, 200)
     rect (x_lineal_links, y_lineal_unten + displayhoehe / 100 * 5, displayhoehe / 100 * 10, displayhoehe / 100 * 10, 50)
-    strokeWeight (10)
     stroke (255, 255, 255)
     line (x_lineal_links + displayhoehe / 100 * 2, y_lineal_unten + displayhoehe / 100 * 10, x_lineal_links + displayhoehe / 100 * 8, y_lineal_unten + displayhoehe / 100 * 10)
-    noStroke ()
     stroke (0, 155, 55)
     fill (0, 155, 55)
     rect (x_lineal_rechts - displayhoehe / 100 * 10, y_lineal_unten + displayhoehe / 100 * 5, displayhoehe / 100 * 10, displayhoehe / 100 * 10, 50)
-    strokeWeight (10)
     stroke (255, 255, 255)
     line (x_lineal_rechts - displayhoehe / 100 * 8, y_lineal_unten + displayhoehe / 100 * 10, x_lineal_rechts - displayhoehe / 100 * 2, y_lineal_unten + displayhoehe / 100 * 10)
     line (x_lineal_rechts - displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 7, x_lineal_rechts - displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 13)
     noStroke ()
     if mouseX in range (x_lineal_links, x_lineal_links + displayhoehe / 100 * 10) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10):
         cursor (HAND)
-        delay(1000)
+        delay (1000)
         mouseClicked()
     if mouseX in range (x_lineal_rechts - displayhoehe / 100 * 10, x_lineal_rechts) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10):
         cursor (HAND)
-        delay(100)
+        delay (100)
         mouseClicked()
     
 # Lineal-Design und Marker zeichnen bei Lineal 
@@ -246,7 +291,7 @@ def lineal():
         fill (0, 255 - (mouseX / 10), 0)
         rect (x_lineal_links, y_lineal_oben, mouseX - x_lineal_links, displayhoehe / 100 * 3, 10)
         textSize (displayhoehe / 100 * 6)
-        text (((mouseX - x_lineal_links) / delta) + displayzaehler * 250, mouseX, y_lineal_oben - y_lineal_oben / 100 * 2)
+        text (((mouseX - x_lineal_links) / delta) + displayzaehler * 250, mouseX, y_lineal_oben - y_lineal_oben / 100 )
         stroke (255, 0, 0)
         strokeWeight (5)
         line (mouseX, y_lineal_oben + 2, mouseX, y_lineal_oben + y_lineal_oben / 100 * 12)
