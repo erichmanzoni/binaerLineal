@@ -26,40 +26,56 @@ def draw ():
     textFont(Font)
     intro()
     if run == 1:
-        smartphone_ansicht()
-        titel()
-        info_button()
-        home_button()
-        lineal_buttons()
-        lineal()
-        marker()
-        beschriftung()
-        displayzaehler_reset()
-        markierungen_reset()
-        infotext_marker()
-        infotext_lineal()
-        fenster_schliessen()
+        if mouseX in range (displaybreite / 100 * 85, displaybreite / 100 * 95) and mouseY in range (displayhoehe / 100 * 6, displayhoehe / 100 * 16):
+            info_fenster()
+            info_button()
+            titel()
+            alle_infos()
+        elif mouseX not in (displaybreite / 100 * 85, displaybreite / 100 * 95) or mouseY not in range (displayhoehe / 100 * 6, displayhoehe / 100 * 16):
+            smartphone_ansicht()
+            titel()
+            info_button()
+            home_button()
+            lineal_buttons()
+            lineal()
+            marker()
+            beschriftung()
+            displayzaehler_reset()
+            markierungen_reset()
+            infotext_marker()
+            infotext_lineal()
+            fenster_schliessen()
         
 # Intro-Seite mit Infos und Möglichkeit über ESC-Taste das Programm gleich wieder zu beenden oder über Taste "R" (-> Rückgabe von run mit Wert 1) zu starten
 def intro():
     global run, displayhoehe, displaybreite
-    fill (100, 100, 100)
-    textAlign (CENTER)
-    textSize (displayhoehe / 100 * 20)
-    text ("Live-Binaerlineal", displaybreite / 2, displayhoehe / 4)
-    textSize (displayhoehe / 100 * 4)
-    fill (255, 255, 255)
-    text ("=> Mauszeiger auf Lineal nach links oder rechts bewegen.", displaybreite / 2, displayhoehe / 3)
-    textSize (displayhoehe / 100 * 6)
-    fill (0, 255 , 100)
-    text ("Taste 'R' => Live-Binaerlineal wird gestartet", displaybreite / 2, displayhoehe / 3 * 2)
-    fill (255, 0 , 0)
-    text ("Taste 'Esc' => Programm wird beendet", displaybreite / 2, displayhoehe / 4 * 3)
-    if keyPressed == True:
-        delay (1)
-        if key == "r":
-            run = 1
+    if run == 0:
+        fill (100, 100, 100)
+        textAlign (CENTER)
+        textSize (displayhoehe / 100 * 20)
+        text ("Live-Binaerlineal", displaybreite / 2, displayhoehe / 4)
+        textSize (displayhoehe / 100 * 4)
+        fill (255, 255, 255)
+        text ("=> Mauszeiger auf Lineal nach links oder rechts bewegen.", displaybreite / 2, displayhoehe / 3)
+        text ("=> Fuer weitere Informationen die Maus auf den Infos-Button", displaybreite / 2, displayhoehe / 3 + displayhoehe / 100 * 10)
+        text ("oder einzelne Fensterelemente bewegen.", displaybreite / 2, displayhoehe / 3 + displayhoehe / 100 * 15)
+        textSize (displayhoehe / 100 * 6)
+        fill (0, 255 , 100)
+        text ("Taste 'R' => Live-Binaerlineal wird gestartet", displaybreite / 2, displayhoehe / 3 * 2)
+        fill (255, 0 , 0)
+        text ("Taste 'Esc' => Programm wird beendet", displaybreite / 2, displayhoehe / 4 * 3)
+        if keyPressed == True:
+            delay (1)
+            if key == "r":
+                run = 1
     return run
+
+# grosses Infofenster
+def info_fenster():
+    global displayhoehe, displaybreite
+    noStroke()
+    fill (200, 200, 200)
+    rect (displayhoehe / 100 * 2, displaybreite / 100, displaybreite - (displaybreite / 100 * 2), displayhoehe - (displayhoehe / 100 * 4), 70)
 
 # Smartphone-Design
 def smartphone_ansicht(): 
@@ -79,12 +95,31 @@ def titel():
     stroke (0, 0, 0)
     line (0, displayhoehe / 100 * 20, displaybreite, displayhoehe / 100 * 20)
 
+# alle Infos im Info-Fenster anzeigen
+def alle_infos():
+    global displayhoehe, displaybreite
+    fill (0, 0, 0)
+    textAlign (LEFT)
+    textSize (displayhoehe / 100 * 4)
+    text ("Programm schliessen:", displaybreite / 100 * 5, displayhoehe / 100 * 40)
+    text ("=> auf roten Homebutton klicken", displaybreite / 3, displayhoehe / 100 * 40)
+    text ("Anzeige Live-Binaerzahl:", displaybreite / 100 * 5, displayhoehe / 100 * 50)
+    text ("=> Mauszeiger auf Lineal nach links oder rechts bewegen", displaybreite / 3, displayhoehe / 100 * 50)
+    text ("Markierungen setzen:", displaybreite / 100 * 5, displayhoehe / 100 * 60)
+    text ("=> Tasten 'A', 'S' & 'D', wenn Maus im Linealbereich", displaybreite / 3, displayhoehe / 100 * 60)
+    text ("Lineal-Skala anpassen:", displaybreite / 100 * 5, displayhoehe / 100 * 70)
+    text ("=> mit Maustasten:   links = - 250 ;   rechts = + 250", displaybreite / 3, displayhoehe / 100 * 70)
+    text ("Auto-Skala-Scrolling:", displaybreite / 100 * 5, displayhoehe / 100 * 80)
+    text ("=> Klick auf blauen / gruenen Button und Maus nicht bewegen", displaybreite / 3, displayhoehe / 100 * 80)
+    text ("Reset-Funktionen:", displaybreite / 100 * 5, displayhoehe / 100 * 90)
+    text ("=> Skala: Taste 'Q' ;   Markierungen: Taste 'F'", displaybreite / 3, displayhoehe / 100 * 90)
+
 # Infobutton-Design (einzublende Infos an anderer Stelle des Codes)
 def info_button():
     global displayhoehe, displaybreite
     strokeWeight (5)
-    stroke (140, 140, 140)
-    fill (140, 140, 140)
+    stroke (0, 0, 0)
+    fill (200, 200, 200)
     rect (displaybreite / 100 * 85, displayhoehe / 100 * 6, displaybreite / 100 * 10 , displayhoehe / 100 * 10, 10)
     textAlign (CENTER)
     fill (0, 0, 0)
@@ -102,7 +137,7 @@ def home_button():
         strokeWeight (1)
         textSize (displayhoehe / 100 * 2)
         textAlign (LEFT)
-        text ("Fenster schliessen:", displaybreite / 100 * 4, displayhoehe / 2 - displayhoehe / 100 * 6)
+        text ("Programm schliessen:", displaybreite / 100 * 4, displayhoehe / 2 - displayhoehe / 100 * 6)
         text ("=> Klick auf roten Button", displaybreite / 100 * 4, displayhoehe / 2 - displayhoehe / 100 * 3)
 
 # Lineal-Buttons und Verändern der Linealskala, wenn Maus auf Button (inkl. Zeichen für schnelles / langsames "Spulen")
@@ -298,7 +333,7 @@ def markierungen_reset():
 def infotext_lineal():
     textAlign (CENTER)
     textSize (displayhoehe / 100 * 4)
-    if mouseX in range (displaybreite / 100 * 85, displaybreite / 100 * 95) and mouseY in range (displayhoehe / 100 * 6, displayhoehe / 100 * 16):
+    if mouseX in range (x_lineal_links, x_lineal_rechts) and mouseY in range (y_lineal_oben, y_lineal_unten):
         fill (140, 140, 140)
         text ("Skala anpassen mit Maustasten:  links => - 250 ; rechts => + 250", displaybreite / 2, displayhoehe - displayhoehe / 100 * 15)
         text ("Reset der Skala mit der Taste 'Q' !!", displaybreite / 2, displayhoehe - displayhoehe / 100 * 10)
@@ -313,7 +348,7 @@ def infotext_lineal():
 
 # Info-Text neben "Markierungsanzeige", wenn Maus auf Info-Button
 def infotext_marker():
-    if mouseX in range (displaybreite / 100 * 85, displaybreite / 100 * 95) and mouseY in range (displayhoehe / 100 * 6, displayhoehe / 100 * 16):
+    if mouseX in range (x_lineal_links, x_lineal_rechts) and mouseY in range (y_lineal_oben, y_lineal_unten):
         textAlign (LEFT)
         fill (140, 140, 140)
         textSize (displayhoehe / 100 * 4)
