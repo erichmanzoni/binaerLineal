@@ -17,37 +17,37 @@ def setup ():
     size (displaybreite, displayhoehe)
     fullScreen ()
     background (0, 0, 0)
-    Font = createFont("Arial Bold", 18)
+    Font = createFont ("Arial Bold", 18)
     # Übermalt Zahl wieder mit weiss
     frameRate (100)
     
 def draw ():
     global run, Font
-    textFont(Font)
-    intro()
+    textFont (Font)
+    intro ()
     if run == 1:
         if mouseX in range (displaybreite / 100 * 85, displaybreite / 100 * 95) and mouseY in range (displayhoehe / 100 * 6, displayhoehe / 100 * 16):
-            info_fenster()
-            info_button()
-            titel()
-            alle_infos()
+            info_fenster ()
+            info_button ()
+            titel ()
+            alle_infos ()
         elif mouseX not in (displaybreite / 100 * 85, displaybreite / 100 * 95) or mouseY not in range (displayhoehe / 100 * 6, displayhoehe / 100 * 16):
-            smartphone_ansicht()
-            titel()
-            info_button()
-            home_button()
-            lineal_buttons()
-            lineal()
-            marker()
-            beschriftung()
-            displayzaehler_reset()
-            markierungen_reset()
-            infotext_marker()
-            infotext_lineal()
-            fenster_schliessen()
+            smartphone_ansicht ()
+            titel ()
+            info_button ()
+            home_button ()
+            lineal_buttons ()
+            lineal ()
+            marker ()
+            beschriftung ()
+            displayzaehler_reset ()
+            markierungen_reset ()
+            infotext_marker ()
+            infotext_lineal ()
+            fenster_schliessen ()
         
 # Intro-Seite mit Infos und Möglichkeit über ESC-Taste das Programm gleich wieder zu beenden oder über Taste "R" (-> Rückgabe von run mit Wert 1) zu starten
-def intro():
+def intro ():
     global run, displayhoehe, displaybreite
     if run == 0:
         fill (100, 100, 100)
@@ -71,21 +71,21 @@ def intro():
     return run
 
 # grosses Infofenster
-def info_fenster():
+def info_fenster ():
     global displayhoehe, displaybreite
-    noStroke()
+    noStroke ()
     fill (200, 200, 200)
     rect (displayhoehe / 100 * 2, displaybreite / 100, displaybreite - (displaybreite / 100 * 2), displayhoehe - (displayhoehe / 100 * 4), 70)
 
 # Smartphone-Design
-def smartphone_ansicht(): 
+def smartphone_ansicht (): 
     global displayhoehe, displaybreite   
-    noStroke()
+    noStroke ()
     fill (255, 255, 255)
     rect (displayhoehe / 100 * 2, displaybreite / 100, displaybreite - (displaybreite / 100 * 2), displayhoehe - (displayhoehe / 100 * 4), 70)
 
 # Programmtitel und Trennlinie
-def titel():
+def titel ():
     global displayhoehe, displaybreite
     textSize (displayhoehe / 100 * 12)
     fill (0, 0, 0)
@@ -96,7 +96,7 @@ def titel():
     line (0, displayhoehe / 100 * 20, displaybreite, displayhoehe / 100 * 20)
 
 # alle Infos im Info-Fenster anzeigen
-def alle_infos():
+def alle_infos ():
     global displayhoehe, displaybreite
     fill (0, 0, 0)
     textAlign (LEFT)
@@ -115,7 +115,7 @@ def alle_infos():
     text (u"=> Skala: Taste 'Q' ;   Markierungen: Taste 'F'", displaybreite / 3, displayhoehe / 100 * 90)
 
 # Infobutton-Design (einzublende Infos an anderer Stelle des Codes)
-def info_button():
+def info_button ():
     global displayhoehe, displaybreite
     strokeWeight (5)
     stroke (0, 0, 0)
@@ -127,10 +127,10 @@ def info_button():
     text (u"Infos", displaybreite / 100 * 90, displayhoehe / 100 * 13)
 
 # Homebutton (für Schliessen des Fensters --> da Fullscreen-Ansicht; inkl. Info-Text, wenn Maus auf rotem Homebutton)     
-def home_button():
+def home_button ():
     global displayhoehe, displaybreite
     strokeWeight (displayhoehe / 100 * 4)
-    stroke(0, 0, 0)
+    stroke (0, 0, 0)
     fill (200, 55, 55)
     rect (displaybreite / 100 * 4, displayhoehe / 2, displayhoehe / 100 * 2, displayhoehe / 100 * 2, 3)
     if mouseX in range (displaybreite * 4 / 100, displaybreite * 4 / 100 + displayhoehe / 100 * 2) and mouseY in range (displayhoehe / 2, displayhoehe / 2 + displayhoehe / 100 * 2):
@@ -141,7 +141,7 @@ def home_button():
         text (u"=> Klick auf roten Button", displaybreite / 100 * 4, displayhoehe / 2 - displayhoehe / 100 * 3)
 
 # Lineal-Buttons und Verändern der Linealskala, wenn Maus auf Button (inkl. Zeichen für schnelles / langsames "Spulen")
-def lineal_buttons():
+def lineal_buttons ():
     global displayzaehler, displayhoehe, displaybreite, x_lineal_links, x_lineal_rechts, delta, y_lineal_oben, y_lineal_unten
     
     # linker Lineal-Button
@@ -171,14 +171,14 @@ def lineal_buttons():
     if mouseX in range (x_lineal_links, x_lineal_links + displayhoehe / 100 * 10) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10):
         cursor (HAND)
         delay (1000)
-        mouseClicked()
+        mouseClicked ()
     if mouseX in range (x_lineal_rechts - displayhoehe / 100 * 10, x_lineal_rechts) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10):
         cursor (HAND)
         delay (100)
-        mouseClicked()
+        mouseClicked ()
 
 # Veränderung von Displayzähler und somit der Linealskala
-def mouseClicked():
+def mouseClicked ():
     global displayzaehler
     if mouseButton == LEFT:
         displayzaehler = displayzaehler - 1
@@ -187,13 +187,13 @@ def mouseClicked():
     return displayzaehler
 
 # Lineal-Design und Marker zeichnen bei Lineal 
-def lineal():
+def lineal ():
     global displayzaehler, displayhoehe, displaybreite, x_lineal_links, x_lineal_rechts, delta, y_lineal_oben, y_lineal_unten
     frameRate (100)
     x_wert = 0
     
     # Linealkontur
-    noFill()
+    noFill ()
     strokeWeight (2)
     stroke (0, 0, 0)
     rect (x_lineal_links, y_lineal_oben, x_lineal_rechts - x_lineal_links, y_lineal_unten - y_lineal_oben, 5)        
@@ -232,10 +232,10 @@ def lineal():
         line (mouseX, y_lineal_oben + 2, mouseX, y_lineal_oben + y_lineal_oben / 100 * 12)
 
     # Marker zeichnen und beschriften
-    keyReleased()    
+    keyReleased ()    
 
 # Marker zeichnen und beschriften, wenn Taste "a", "s" oder "d" losgelassen wird + Binärzahl berechnen und notieren
-def keyReleased():
+def keyReleased ():
     global x_marker_a, x_marker_s, x_marker_d, y_lineal_oben, displaybreite, delta, x_lineal_links, displayzaehler
     textAlign (LEFT)
     strokeWeight (5)
@@ -273,7 +273,7 @@ def keyReleased():
         text (((x_marker_d - x_lineal_links) / delta) + displayzaehler * 250, x_marker_d + displaybreite / 100 * 3, y_lineal_oben - displayhoehe / 100 * 7)
 
 # X-Wert von Marker (letzter Wert) festlegen, wenn Taste "a", "s" oder "d" gedrückt wird
-def marker():
+def marker ():
     global x_marker_a, x_marker_s, x_marker_d, displayhoehe, displaybreite
     if mouseX in range (x_lineal_links, x_lineal_rechts) and mouseY in range (y_lineal_oben, y_lineal_unten):
         if keyPressed == True:
@@ -288,7 +288,7 @@ def marker():
     return x_marker_a, x_marker_s, x_marker_d
 
 # Diverse Beschriftungen und Ausgabe der Live-Binärzahl, wenn Maus im Bereich des Lineals bewegt wird
-def beschriftung():
+def beschriftung ():
     global x_marker_a, x_marker_s, x_marker_d, displayzaehler, displayhoehe, displaybreite, x_lineal_links, x_lineal_rechts, delta, y_lineal_oben, y_lineal_unten                   
     
     # Beschriftungen
@@ -312,7 +312,7 @@ def beschriftung():
         text (binary, displaybreite / 100 * 40, displayhoehe / 100 * 35)
 
 # Displayzähler zurücksetzen auf 0
-def displayzaehler_reset():
+def displayzaehler_reset ():
     global displayzaehler
     if keyPressed == True:
         if key == "q":
@@ -320,7 +320,7 @@ def displayzaehler_reset():
     return displayzaehler
 
 # bestehende Markierungen löschen
-def markierungen_reset():
+def markierungen_reset ():
     global x_marker_a, x_marker_s, x_marker_d
     if keyPressed == True:
         if key == "f":
@@ -330,7 +330,7 @@ def markierungen_reset():
     return x_marker_a, x_marker_s, x_marker_d
 
 # Info-Text unter Lineal einblenden, wenn Maus auf Info-Button (allg. Infos) oder einem der beiden Lineal-Buttons (automatisches Skala-Scrolling)
-def infotext_lineal():
+def infotext_lineal ():
     textAlign (CENTER)
     textSize (displayhoehe / 100 * 4)
     if mouseX in range (x_lineal_links, x_lineal_rechts) and mouseY in range (y_lineal_oben, y_lineal_unten):
@@ -347,7 +347,7 @@ def infotext_lineal():
         text (u"=>  -/+ 2500 pro Sekunde", displaybreite / 2, displayhoehe - displayhoehe / 100 * 10)
 
 # Info-Text neben "Markierungsanzeige", wenn Maus auf Info-Button
-def infotext_marker():
+def infotext_marker ():
     if mouseX in range (x_lineal_links, x_lineal_rechts) and mouseY in range (y_lineal_oben, y_lineal_unten):
         textAlign (LEFT)
         fill (140, 140, 140)
@@ -361,13 +361,13 @@ def infotext_marker():
         text (u"(wenn Maus im Linealbereich)", displaybreite / 100 * 75, displayhoehe / 100 * 33)
 
 # Funktion für das Schliessen des Fensters (da Fullscreen-Ansicht)
-def fenster_schliessen():
+def fenster_schliessen ():
     global displayhoehe, displaybreite
     if mouseX in range (displaybreite * 4 / 100, displaybreite * 4 / 100 + displayhoehe / 100 * 2) and mouseY in range (displayhoehe / 2, displayhoehe / 2 + displayhoehe / 100 * 2):
         cursor (HAND)
         if mousePressed == True:
             cursor (WAIT)
-            delay(1000)
+            delay (1000)
             exit ()
     if mouseX not in range (displaybreite * 4 / 100, displaybreite * 4 / 100 + displayhoehe / 100 * 2) or mouseY not in range (displayhoehe / 2, displayhoehe / 2 + displayhoehe / 100 * 2):
         cursor (ARROW)
