@@ -241,7 +241,7 @@ def lineal_buttons ():
     text (u"<<<<", x_lineal_rechts - displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 10)
     text (u">>>>", x_lineal_rechts - displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 13)
             
-    # schnelles / langsames Verändern "Spulen" der Linealskala, wenn der Mauszeiger im Bereich des jeweiligen Buttons links oder rechts und wenn es gleichzeitig zu einem Mausklick (egal ob linke oder rechte Maustaste) kommt
+    # schnelles / langsames Verändern "Spulen" der Linealskala, wenn der Mauszeiger im Bereich des jeweiligen Buttons links oder rechts (inkl. Cursorveränderung) und wenn es gleichzeitig zu einem Mausklick (egal ob linke oder rechte Maustaste) kommt
     noStroke ()
     # langsames "Spulen" beim linken Lineal-Button (aufgrund des Delaywertes von 1000 -> entspricht 1 Änderung pro Sekunde)
     if mouseX in range (x_lineal_links, x_lineal_links + displayhoehe / 100 * 10) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10):
@@ -512,7 +512,7 @@ def infotext_marker ():
         textSize (displayhoehe / 100 * 2)
         text (u"(wenn Maus im Linealbereich)", displaybreite / 100 * 75, displayhoehe / 100 * 33)
 
-# Funktion für das Schliessen des Fensters (da Fullscreen-Ansicht)
+# Funktion für das Schliessen des Fensters (da Fullscreen-Ansicht), wenn der Mauszeiger im Bereich des roten Homebuttons und gleichzeitig eine Maustaste gedrückt wird (inkl. Cursorveränderungen)
 def fenster_schliessen ():
     
     # displayhoehe = initial festgelegter Wert für die Anzeigehöhe des Programms
