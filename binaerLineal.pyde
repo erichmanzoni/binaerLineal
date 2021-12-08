@@ -217,40 +217,40 @@ def lineal_buttons ():
     # y_lineal_unten = x-Koordinaten-Endwert des Lineals (bei 85 % der Displayhöhe)
     global displayhoehe, x_lineal_links, x_lineal_rechts, y_lineal_unten
     
+    strokeWeight (displayhoehe / 100)
     # Design des linken Lineal-Buttons
-    strokeWeight (10)
     stroke (0, 50, 200)
     fill (0, 50, 200)
-    rect (x_lineal_links, y_lineal_unten + displayhoehe / 100 * 5, displayhoehe / 100 * 10, displayhoehe / 100 * 10, 50)
+    rect (x_lineal_links, y_lineal_unten + displayhoehe / 100 * 3, displayhoehe / 100 * 8, displayhoehe / 100 * 8, 50)
     
     # Design des rechten Lineal-Buttons
     stroke (0, 155, 55)
     fill (0, 155, 55)
-    rect (x_lineal_rechts - displayhoehe / 100 * 10, y_lineal_unten + displayhoehe / 100 * 5, displayhoehe / 100 * 10, displayhoehe / 100 * 10, 50)
+    rect (x_lineal_rechts - displayhoehe / 100 * 8, y_lineal_unten + displayhoehe / 100 * 3, displayhoehe / 100 * 8, displayhoehe / 100 * 8, 50)
     
     # Design des Zeichens für langsames "Spulen" auf dem linken Lineal-Button und für schnelles "Spulen" auf dem rechten Lineal-Button 
     fill (255, 255, 255)
-    textSize (displayhoehe / 100 * 4)
+    textSize (displayhoehe / 100 * 3)
     textAlign (CENTER)
     
     # Zeichen links (langsames "Spulen")
-    text (u"<", x_lineal_links + displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 10)
-    text (u">", x_lineal_links + displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 13)
+    text (u"<", x_lineal_links + displayhoehe / 100 * 4, y_lineal_unten + displayhoehe / 100 * 7)
+    text (u">", x_lineal_links + displayhoehe / 100 * 4, y_lineal_unten + displayhoehe / 100 * 9)
     
     # Zeichen rechts (schnelles "Spulen")
-    text (u"<<<<", x_lineal_rechts - displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 10)
-    text (u">>>>", x_lineal_rechts - displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 13)
+    text (u"<<<<", x_lineal_rechts - displayhoehe / 100 * 4, y_lineal_unten + displayhoehe / 100 * 7)
+    text (u">>>>", x_lineal_rechts - displayhoehe / 100 * 4, y_lineal_unten + displayhoehe / 100 * 9)
             
     # schnelles / langsames Verändern "Spulen" der Linealskala, wenn der Mauszeiger im Bereich des jeweiligen Buttons links oder rechts (inkl. Cursorveränderung) und wenn es gleichzeitig zu einem Mausklick (egal ob linke oder rechte Maustaste) kommt
     noStroke ()
     # langsames "Spulen" beim linken Lineal-Button (aufgrund des Delaywertes von 1000 -> entspricht 1 Änderung pro Sekunde)
-    if mouseX in range (x_lineal_links, x_lineal_links + displayhoehe / 100 * 10) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10):
+    if mouseX in range (x_lineal_links, x_lineal_links + displayhoehe / 100 * 8) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 3, y_lineal_unten + displayhoehe / 100 * 3 + displayhoehe / 100 * 8):
         cursor (HAND)
         delay (1000)
         mouseClicked ()
         
     # schnelles "Spulen" beim rechten Lineal-Button (aufgrund des Delaywertes von 100 -> entspricht 1 Änderung pro 1/10 Sekunde)
-    if mouseX in range (x_lineal_rechts - displayhoehe / 100 * 10, x_lineal_rechts) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10):
+    if mouseX in range (x_lineal_rechts - displayhoehe / 100 * 8, x_lineal_rechts) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 3, y_lineal_unten + displayhoehe / 100 * 3 + displayhoehe / 100 * 8):
         cursor (HAND)
         delay (100)
         mouseClicked ()
@@ -475,19 +475,19 @@ def infotext_lineal ():
     global displayhoehe, displaybreite, x_lineal_links, x_lineal_recht, y_lineal_oben, y_lineal_unten
     
     textAlign (CENTER)
-    textSize (displayhoehe / 100 * 4)
+    textSize (displayhoehe / 100 * 3)
     if mouseX in range (x_lineal_links, x_lineal_rechts) and mouseY in range (y_lineal_oben, y_lineal_unten):
         fill (140, 140, 140)
-        text (u"Skala anpassen mit Maustasten:  links => - 250 ; rechts => + 250", displaybreite / 2, displayhoehe - displayhoehe / 100 * 15)
-        text (u"Reset der Skala mit der Taste 'Q' !!", displaybreite / 2, displayhoehe - displayhoehe / 100 * 10)
+        text (u"Skala anpassen mit Maustasten:  links => - 250 ; rechts => + 250", displaybreite / 2, y_lineal_unten + displayhoehe / 100 * 6)
+        text (u"Reset der Skala mit der Taste 'Q' !!", displaybreite / 2, y_lineal_unten + displayhoehe / 100 * 10)
     if mouseX in range (x_lineal_links - 10, x_lineal_links + displayhoehe / 100 * 10 + 10) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5 - 10, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10 + 10):
         fill (0, 50, 200)
-        text (u"Automatisches Skala-Scrolling: Klick und Maus nicht bewegen!!", displaybreite / 2, displayhoehe - displayhoehe / 100 * 15)
-        text (u"=>  -/+ 250 pro Sekunde", displaybreite / 2, displayhoehe - displayhoehe / 100 * 10)
+        text (u"Automatisches Skala-Scrolling: Klick und Maus nicht bewegen!!", displaybreite / 2, y_lineal_unten + displayhoehe / 100 * 6)
+        text (u"=>  -/+ 250 pro Sekunde", displaybreite / 2, y_lineal_unten + displayhoehe / 100 * 10)
     if mouseX in range (x_lineal_rechts - displayhoehe / 100 * 10 - 10, x_lineal_rechts + 10) and mouseY in range (y_lineal_unten + displayhoehe / 100 * 5 - 10, y_lineal_unten + displayhoehe / 100 * 5 + displayhoehe / 100 * 10 + 10):
         fill (0, 150, 0)
-        text (u"Automatisches Skala-Scrolling: Klick und Maus nicht bewegen!!", displaybreite / 2, displayhoehe - displayhoehe / 100 * 15)
-        text (u"=>  -/+ 2500 pro Sekunde", displaybreite / 2, displayhoehe - displayhoehe / 100 * 10)
+        text (u"Automatisches Skala-Scrolling: Klick und Maus nicht bewegen!!", displaybreite / 2, y_lineal_unten + displayhoehe / 100 * 6)
+        text (u"=>  -/+ 2500 pro Sekunde", displaybreite / 2, y_lineal_unten + displayhoehe / 100 * 10)
 
 # Visualisierung des Info-Text neben der "Markierungsanzeige", wenn der Mauszeiger im Bereich des Lineals (Markierung setzen & löschen)
 def infotext_marker ():
@@ -503,10 +503,9 @@ def infotext_marker ():
     if mouseX in range (x_lineal_links, x_lineal_rechts) and mouseY in range (y_lineal_oben, y_lineal_unten):
         textAlign (LEFT)
         fill (140, 140, 140)
-        textSize (displayhoehe / 100 * 4)
+        textSize (displayhoehe / 100 * 3)
         text (u"Markierungen setzen", displaybreite / 100 * 75, displayhoehe / 100 * 30)
         text (u"Markierungen löschen", displaybreite / 100 * 75, displayhoehe / 100 * 50)
-        textSize (displayhoehe / 100 * 3)
         text (u"=> Tasten 'A', 'S' und 'D'", displaybreite / 100 * 75, displayhoehe / 100 * 38)
         text (u"=> Taste 'F'", displaybreite / 100 * 75, displayhoehe / 100 * 55)
         textSize (displayhoehe / 100 * 2)
