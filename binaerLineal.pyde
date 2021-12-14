@@ -66,7 +66,7 @@ def draw ():
             alle_infos ()
         
         # Anzeige des Binärlineals, wenn der Mauszeiger nicht im Bereich des Infos-Button
-        elif mouseX not in (displaybreite / 100 * 85, displaybreite / 100 * 95) or mouseY not in range (displayhoehe / 100 * 6, displayhoehe / 100 * 16):
+        elif mouseX not in range (displaybreite / 100 * 85, displaybreite / 100 * 95) or mouseY not in range (displayhoehe / 100 * 6, displayhoehe / 100 * 16):
             smartphone_ansicht ()
             titel ()
             info_button ()
